@@ -1,0 +1,20 @@
+const express = require("express");
+const router = express.Router();
+const auth = require("../middleware/auth");
+
+const {
+    getOrderDetails, getOrderList, addOrderBySiteManager,updateProductPriceInOrderBySupplier,comfirmOrderBySiteManager,acceptOrderBySuppiler,unacceptOrderBySuppiler, approvedOrDisapprovedOrderByManager,placedOrderByProcurementOfficer,closeOrderAfterDeliveryCompletedBySiteManager
+} = require("../controllers/Order.controller");
+
+router.get("/:id", getOrderDetails);
+router.get("/", getOrderList);
+router.post("/sitemanager/site/:siteid", addOrderBySiteManager);
+router.post("/sitemanager/confirmorder/:orderid", comfirmOrderBySiteManager);
+router.post("/manager/approve/:orderid", approvedOrDisapprovedOrderByManager);
+router.post("/procurementofficer/placedorder/:orderid", placedOrderByProcurementOfficer);
+router.post("/supplier/accept/:orderid", acceptOrderBySuppiler);
+router.post("/supplier/unaccept/:orderid", unacceptOrderBySuppiler);
+router.post("/supplier/pricechange/:orderid/:orderproductid", updateProductPriceInOrderBySupplier);
+router.post("/sitemanager/closed/:orderid", closeOrderAfterDeliveryCompletedBySiteManager);
+
+module.exports = router;
