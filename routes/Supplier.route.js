@@ -16,7 +16,7 @@ router.get("/:id/placedorders", getPlacedOrdersForEachSupplier);
 router.post("/register", registerSupplier);
 router.post("/login", loginSupplier);
 router.get("/", auth, getSupplierDetails);
-router.get("/", getSupplierList);
+router.get("/all", getSupplierList);
 
 
 module.exports = router;

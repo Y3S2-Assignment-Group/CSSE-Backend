@@ -9,19 +9,40 @@ const getSupplierDetails = async (req, res) => {
     //get user details
     //-password : dont return the pasword
     const user = await Supplier.findById(req.user.id)
-      .select("-password")
-      .populate({
-        path: "orderList",
+    .select("-password")
+    .populate({
+      path: "orderList",
+      populate: {
+        path: "productList",
+        populate: {
+          path: "product",
+        },
+      },
+    })
+    .populate({
+      path: "orderList",
+      populate: {
+        path: "deliveryList",
         populate: {
           path: "productList",
           populate: {
             path: "product",
           },
         },
-      })
-      .populate({
-        path: "productList",
-      });
+      },
+    })
+    .populate({
+      path: "orderList",
+      populate: {
+        path: "deliveryList",
+        populate: {
+          path: "goodsReciept",
+        },
+      },
+    })
+    .populate({
+      path: "productList",
+    });
     res.json(user);
   } catch (err) {
     console.log(err.message);
@@ -76,8 +97,42 @@ const getAcceptedOrCompletedOrdersForEachSupplier = async (req, res) => {
 //get Product List
 const getSupplierList = async (req, res) => {
   try {
-    const productList = await Product.find();
-    res.json(productList);
+    const supplierList = await Supplier.find()
+      .select("-password")
+      .populate({
+        path: "orderList",
+        populate: {
+          path: "productList",
+          populate: {
+            path: "product",
+          },
+        },
+      })
+      .populate({
+        path: "orderList",
+        populate: {
+          path: "deliveryList",
+          populate: {
+            path: "productList",
+            populate: {
+              path: "product",
+            },
+          },
+        },
+      })
+      .populate({
+        path: "orderList",
+        populate: {
+          path: "deliveryList",
+          populate: {
+            path: "goodsReciept",
+          },
+        },
+      })
+      .populate({
+        path: "productList",
+      });
+    res.json(supplierList);
   } catch (err) {
     console.log(err.message);
     res.status(500).send("Server Error");
@@ -148,7 +203,7 @@ const registerSupplier = async (req, res) => {
       email,
       password,
       address,
-      contactNumber
+      contactNumber,
     });
 
     //Encrypt Password
