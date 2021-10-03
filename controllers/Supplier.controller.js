@@ -29,7 +29,6 @@ const getSupplierDetails = async (req, res) => {
   }
 };
 
-
 //Get Placed Orders For Each Supplier
 const getPlacedOrdersForEachSupplier = async (req, res) => {
   try {
@@ -44,7 +43,7 @@ const getPlacedOrdersForEachSupplier = async (req, res) => {
             path: "product",
           },
         },
-      })
+      });
     res.json(user);
   } catch (err) {
     console.log(err.message);
@@ -66,7 +65,7 @@ const getAcceptedOrCompletedOrdersForEachSupplier = async (req, res) => {
             path: "product",
           },
         },
-      })
+      });
     res.json(user);
   } catch (err) {
     console.log(err.message);
@@ -131,7 +130,7 @@ const loginSupplier = async (req, res) => {
 
 //Register Supplier
 const registerSupplier = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, address, contactNumber } = req.body;
 
   try {
     //See if user Exist
@@ -148,6 +147,8 @@ const registerSupplier = async (req, res) => {
       name,
       email,
       password,
+      address,
+      contactNumber
     });
 
     //Encrypt Password
@@ -191,5 +192,5 @@ module.exports = {
   loginSupplier,
   registerSupplier,
   getPlacedOrdersForEachSupplier,
-  getAcceptedOrCompletedOrdersForEachSupplier
+  getAcceptedOrCompletedOrdersForEachSupplier,
 };
