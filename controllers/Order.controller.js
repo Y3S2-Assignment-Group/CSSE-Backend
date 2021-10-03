@@ -31,6 +31,9 @@ const getOrderDetails = async (req, res) => {
       })
       .populate({
         path: "site",
+      })
+      .populate({
+        path: "supplier",
       });
     res.json(order);
   } catch (err) {
@@ -66,6 +69,9 @@ const getOrderList = async (req, res) => {
       })
       .populate({
         path: "site",
+      })
+      .populate({
+        path: "supplier",
       });
 
     res.json(orderList);
