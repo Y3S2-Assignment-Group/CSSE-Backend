@@ -114,4 +114,18 @@ const registerSiteManager = async (req, res) => {
   }
 };
 
-module.exports = { getSiteManagerDetails, loginSiteManager, registerSiteManager };
+//get all site managers
+
+const getAllSiteManagers = async (req, res) => {
+  try {
+    //get user details
+    //-password : dont return the pasword
+    const user = await SiteManager.find().select("-password");
+    res.json(user);
+  } catch {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+module.exports = { getSiteManagerDetails, loginSiteManager, registerSiteManager, getAllSiteManagers };
