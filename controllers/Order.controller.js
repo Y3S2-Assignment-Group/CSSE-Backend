@@ -7,7 +7,31 @@ const Supplier = require("../models/Supplier.model");
 //get Order details
 const getOrderDetails = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id)
+      .populate({
+        path: "productList",
+        populate: {
+          path: "product",
+        },
+      })
+      .populate({
+        path: "deliveryList",
+        populate: {
+          path: "productList",
+          populate: {
+            path: "product",
+          },
+        },
+      })
+      .populate({
+        path: "deliveryList",
+        populate: {
+          path: "goodsReciept",
+        },
+      })
+      .populate({
+        path: "site",
+      });
     res.json(order);
   } catch (err) {
     console.log(err.message);
@@ -18,7 +42,32 @@ const getOrderDetails = async (req, res) => {
 //get Order List
 const getOrderList = async (req, res) => {
   try {
-    const orderList = await Order.find();
+    const orderList = await Order.find()
+      .populate({
+        path: "productList",
+        populate: {
+          path: "product",
+        },
+      })
+      .populate({
+        path: "deliveryList",
+        populate: {
+          path: "productList",
+          populate: {
+            path: "product",
+          },
+        },
+      })
+      .populate({
+        path: "deliveryList",
+        populate: {
+          path: "goodsReciept",
+        },
+      })
+      .populate({
+        path: "site",
+      });
+
     res.json(orderList);
   } catch (err) {
     console.log(err.message);
@@ -119,6 +168,9 @@ const addOrderBySiteManager = async (req, res) => {
       status,
       totalPrice,
       supplier,
+      site: {
+        _id: req.params.siteid,
+      },
     });
 
     order.save().then((orderObject) => {

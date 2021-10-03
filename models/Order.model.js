@@ -21,6 +21,10 @@ const OrderSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Supplier",
   },
+  site: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Site",
+  },
   placedDate: {
     type: Date,
   },
