@@ -7,6 +7,6 @@ const {
 } = require("../controllers/Invoice.controller");
 
 router.post("/", addInvoice);
-router.post("/:id/:orderid", updateInvoicePaymentStatus);
+router.post("/updateInvoicePaymentStatus/:id/:orderid", updateInvoicePaymentStatus);
 
 module.exports = router;
