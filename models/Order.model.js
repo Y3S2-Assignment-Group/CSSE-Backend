@@ -26,10 +26,10 @@ const OrderSchema = new Schema({
     ref: "Site",
   },
   placedDate: {
-    type: Date,
+    type: String,
   },
   requiredDate: {
-    type: Date,
+    type: String,
   },
   approvalStatus: {
     type: Boolean,
