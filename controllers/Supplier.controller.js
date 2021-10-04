@@ -53,6 +53,12 @@ const getSupplierDetails = async (req, res) => {
       },
     })
     .populate({
+      path: "orderList",
+      populate: {
+        path: "site"
+      },
+    })
+    .populate({
       path: "productList",
     });
     res.json(user);
