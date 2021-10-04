@@ -65,8 +65,8 @@ const updateProduct = async (req, res) => {
 
     if (product != null) {
       Product.findByIdAndUpdate(req.params.id).then(async (existingProduct) => {
-        existingProduct = req.body;
-
+        existingProduct.ProductName = req.body.ProductName;
+        existingProduct.pPrice = req.body.pPrice;
         existingProduct
           .save()
           .then((response) => res.json(response))
