@@ -72,6 +72,8 @@ const getOrderList = async (req, res) => {
       })
       .populate({
         path: "supplier",
+      }).populate({
+        path: "invoice",
       });
 
     res.json(orderList);
