@@ -11,7 +11,7 @@ const {
 
 router.get("/:id", getProductDetails);
 router.put("/:id", updateProduct);
-router.delete("/:id", deleteIssue);
+router.post("/:id", deleteIssue);
 router.get("/", getProductList);
 router.post("/", addProductByProcurementOfficer);
 
