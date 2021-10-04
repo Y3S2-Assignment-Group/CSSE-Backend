@@ -3,6 +3,28 @@ const Supplier = require("../models/Supplier.model");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 
+
+
+//get Supplier details
+const getSupplierProductsList = async (req, res) => {
+  try {
+    //get user details
+    //-password : dont return the pasword
+    const user = await Supplier.findById(req.params.id)
+    .select("productList")
+    .populate({
+      path: "productList",
+      match: { deleteStatus: false },
+      select: "ProductName pPrice",
+    });
+    res.json(user.productList);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+
 //get Supplier details
 const getSupplierDetails = async (req, res) => {
   try {
@@ -266,4 +288,5 @@ module.exports = {
   registerSupplier,
   getPlacedOrdersForEachSupplier,
   getAcceptedOrCompletedOrdersForEachSupplier,
+  getSupplierProductsList
 };
