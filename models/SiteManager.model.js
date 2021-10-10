@@ -12,6 +12,12 @@ const SiteManagerSchema = new Schema({
   password: {
     type: String,
   },
+  siteList: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Site",
+    },
+  ],
 });
 
 module.exports = SiteManager = mongoose.model("SiteManager", SiteManagerSchema);

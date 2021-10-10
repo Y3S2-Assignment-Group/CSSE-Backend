@@ -1,4 +1,5 @@
 const Site = require("../models/Site.model");
+const SiteManager = require("../models/SiteManager.model");
 
 //Insert Site to the system
 const addSite = async (req, res) => {
@@ -17,7 +18,11 @@ const addSite = async (req, res) => {
     await site
       .save()
       .then(async (insertedSite) => {
-        res.json(insertedSite);
+        const siteManager = await SiteManager.findById(supplierId);
+        siteManager.siteList.unshift(insertedSite);
+        await siteManager.save().then(() => {
+          res.json(insertedSite);
+        });
       })
       .catch((err) => res.status(400).json("Error: " + err));
   } catch (err) {
