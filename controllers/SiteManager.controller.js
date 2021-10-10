@@ -18,6 +18,21 @@ const getSiteManagerDetails = async (req, res) => {
   }
 };
 
+//get Site Manager details
+const getSiteManagerSiteList = async (req, res) => {
+  try {
+    //get user details
+    //-password : dont return the pasword
+    const user = await SiteManager.findById(req.user.id).select("siteList").populate({
+      path: "siteList",
+    });
+    res.json(user.siteList);
+  } catch {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
 //Authenticate admin and get token
 const loginSiteManager = async (req, res) => {
   const { email, password } = req.body;
@@ -130,4 +145,4 @@ const getAllSiteManagers = async (req, res) => {
   }
 };
 
-module.exports = { getSiteManagerDetails, loginSiteManager, registerSiteManager, getAllSiteManagers };
+module.exports = { getSiteManagerDetails, loginSiteManager, registerSiteManager, getAllSiteManagers ,getSiteManagerSiteList};
