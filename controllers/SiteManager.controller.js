@@ -8,7 +8,9 @@ const getSiteManagerDetails = async (req, res) => {
   try {
     //get user details
     //-password : dont return the pasword
-    const user = await SiteManager.findById(req.user.id).select("-password");
+    const user = await SiteManager.findById(req.user.id).select("-password").populate({
+      path: "siteList",
+    });
     res.json(user);
   } catch {
     console.log(err.message);

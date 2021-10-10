@@ -18,7 +18,7 @@ const addSite = async (req, res) => {
     await site
       .save()
       .then(async (insertedSite) => {
-        const siteManager = await SiteManager.findById(supplierId);
+        const siteManager = await SiteManager.findById(insertedSite.siteManager._id);
         siteManager.siteList.unshift(insertedSite);
         await siteManager.save().then(() => {
           res.json(insertedSite);
