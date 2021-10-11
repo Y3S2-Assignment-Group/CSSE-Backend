@@ -9,9 +9,11 @@ const getSiteManagerDetails = async (req, res) => {
   try {
     //get user details
     //-password : dont return the pasword
-    const user = await SiteManager.findById(req.user.id).select("-password").populate({
-      path: "siteList",
-    });
+    const user = await SiteManager.findById(req.user.id)
+      .select("-password")
+      .populate({
+        path: "siteList",
+      });
     res.json(user);
   } catch {
     console.log(err.message);
@@ -19,36 +21,27 @@ const getSiteManagerDetails = async (req, res) => {
   }
 };
 
-
 //Get Order List Of Site Manager
 const getOrderListOfSiteManager = async (req, res) => {
   try {
-    let orderList = [];
-    const user = await SiteManager.findById(req.user.id);
-    user.siteList.forEach((singleSiteId)=>{
-      Site.findById(singleSiteId).then((site)=>{
-        site.orderList.forEach(singleOrder=>{
-          orderList.push(site.orderList)
-        })     
-      })
-    })
-
+    const orderList = await Order.find({site : "61571f3b0a910a199d125e12"})
     res.json(orderList);
-  } catch {
+  } catch (err) {
     console.log(err.message);
     res.status(500).send("Server Error");
   }
 };
-
 
 //get Site Manager details
 const getSiteManagerSiteList = async (req, res) => {
   try {
     //get user details
     //-password : dont return the pasword
-    const user = await SiteManager.findById(req.user.id).select("siteList").populate({
-      path: "siteList",
-    });
+    const user = await SiteManager.findById(req.user.id)
+      .select("siteList")
+      .populate({
+        path: "siteList",
+      });
     res.json(user.siteList);
   } catch {
     console.log(err.message);
@@ -103,13 +96,15 @@ const loginSiteManager = async (req, res) => {
 //Register Site Manager
 const registerSiteManager = async (req, res) => {
   const { name, email, password } = req.body;
-  
+
   try {
     //See if user Exist
     let user = await SiteManager.findOne({ email });
 
     if (user) {
-      return res.status(400).json({ errors: [{ msg: "Site Manager already exist" }] });
+      return res
+        .status(400)
+        .json({ errors: [{ msg: "Site Manager already exist" }] });
     }
 
     //create a Site Manager instance
@@ -168,4 +163,11 @@ const getAllSiteManagers = async (req, res) => {
   }
 };
 
-module.exports = { getSiteManagerDetails, loginSiteManager, registerSiteManager, getAllSiteManagers ,getSiteManagerSiteList,getOrderListOfSiteManager};
+module.exports = {
+  getSiteManagerDetails,
+  loginSiteManager,
+  registerSiteManager,
+  getAllSiteManagers,
+  getSiteManagerSiteList,
+  getOrderListOfSiteManager,
+};

@@ -4,6 +4,48 @@ const Product = require("../models/Product.model");
 const Site = require("../models/Site.model");
 const Supplier = require("../models/Supplier.model");
 
+//get Order List By Order Id
+const getOrderProductListByOrderId = async (req, res) => {
+  try {
+    const orderList = await Order.findById(req.params.orderid)
+      .select("productList")
+      .populate({
+        path: "productList",
+        populate: {
+          path: "product",
+        },
+      })
+    res.json(orderList.productList);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+//get Order List By Site Id
+const getOrderListBySiteId = async (req, res) => {
+  try {
+    const orderList = await Order.find({ site: req.params.siteId,isDraft :false })
+      .select("productList site supplier")
+      .populate({
+        path: "productList",
+        populate: {
+          path: "product",
+        },
+      })
+      .populate({
+        path: "site",
+      })
+      .populate({
+        path: "supplier",
+      });
+    res.json(orderList);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
 //get Order details
 const getOrderDetails = async (req, res) => {
   try {
@@ -72,7 +114,8 @@ const getOrderList = async (req, res) => {
       })
       .populate({
         path: "supplier",
-      }).populate({
+      })
+      .populate({
         path: "invoice",
       });
 
@@ -306,4 +349,6 @@ module.exports = {
   unacceptOrderBySuppiler,
   updateProductPriceInOrderBySupplier,
   closeOrderAfterDeliveryCompletedBySiteManager,
+  getOrderListBySiteId,
+  getOrderProductListByOrderId
 };

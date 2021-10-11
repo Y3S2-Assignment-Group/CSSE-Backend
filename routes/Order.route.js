@@ -3,7 +3,7 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 
 const {
-    getOrderDetails, getOrderList, addOrderBySiteManager,updateProductPriceInOrderBySupplier,comfirmOrderBySiteManager,acceptOrderBySuppiler,unacceptOrderBySuppiler, approvedOrDisapprovedOrderByManager,placedOrderByProcurementOfficer,closeOrderAfterDeliveryCompletedBySiteManager
+    getOrderDetails, getOrderList, addOrderBySiteManager,updateProductPriceInOrderBySupplier,comfirmOrderBySiteManager,acceptOrderBySuppiler,unacceptOrderBySuppiler, approvedOrDisapprovedOrderByManager,placedOrderByProcurementOfficer,closeOrderAfterDeliveryCompletedBySiteManager,getOrderListBySiteId,getOrderProductListByOrderId
 } = require("../controllers/Order.controller");
 
 router.get("/:id", getOrderDetails);
@@ -16,5 +16,7 @@ router.post("/supplier/accept/:orderid", acceptOrderBySuppiler);
 router.post("/supplier/unaccept/:orderid", unacceptOrderBySuppiler);
 router.post("/supplier/pricechange/:orderid/:orderproductid", updateProductPriceInOrderBySupplier);
 router.post("/sitemanager/closed/:orderid", closeOrderAfterDeliveryCompletedBySiteManager);
+router.get("/sitemanager/site/:siteid", getOrderListBySiteId);
+router.get("/productlist/:orderid", getOrderProductListByOrderId);
 
 module.exports = router;
