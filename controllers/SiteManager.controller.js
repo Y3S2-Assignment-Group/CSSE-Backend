@@ -21,21 +21,24 @@ const getSiteManagerDetails = async (req, res) => {
 
 
 //Get Order List Of Site Manager
-// const getOrderListOfSiteManager = async (req, res) => {
-//   try {
-//     //get user details
-//     //-password : dont return the pasword
-//     const user = await SiteManager.findById(req.user.id);
-//     user.siteList.forEach((singleSiteId)=>{
-//       Site.
-//     })
+const getOrderListOfSiteManager = async (req, res) => {
+  try {
+    let orderList = [];
+    const user = await SiteManager.findById(req.user.id);
+    user.siteList.forEach((singleSiteId)=>{
+      Site.findById(singleSiteId).then((site)=>{
+        site.orderList.forEach(singleOrder=>{
+          orderList.push(site.orderList)
+        })     
+      })
+    })
 
-//     res.json(user);
-//   } catch {
-//     console.log(err.message);
-//     res.status(500).send("Server Error");
-//   }
-// };
+    res.json(orderList);
+  } catch {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+};
 
 
 //get Site Manager details
@@ -165,4 +168,4 @@ const getAllSiteManagers = async (req, res) => {
   }
 };
 
-module.exports = { getSiteManagerDetails, loginSiteManager, registerSiteManager, getAllSiteManagers ,getSiteManagerSiteList};
+module.exports = { getSiteManagerDetails, loginSiteManager, registerSiteManager, getAllSiteManagers ,getSiteManagerSiteList,getOrderListOfSiteManager};

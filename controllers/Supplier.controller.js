@@ -203,7 +203,6 @@ const getAcceptedOrCompletedOrdersForEachSupplier = async (req, res) => {
 const getSupplierList = async (req, res) => {
   try {
     const supplierList = await Supplier.find()
-      .select("-password")
       .populate({
         path: "orderList",
         populate: {
@@ -237,7 +236,7 @@ const getSupplierList = async (req, res) => {
       .populate({
         path: "productList",
       });
-    res.json(supplierList);
+      res.json(supplierList);
   } catch (err) {
     console.log(err.message);
     res.status(500).send("Server Error");
