@@ -25,6 +25,71 @@ const getSupplierProductsList = async (req, res) => {
 };
 
 
+//get Supplier details by id
+const getSupplierDetailsById = async (req, res) => {
+  try {
+    //get user details
+    //-password : dont return the pasword
+    const user = await Supplier.findById(req.params.id)
+    .select("-password")
+    .populate({
+      path: "orderList",
+      populate: {
+        path: "productList",
+        populate: {
+          path: "product",
+        },
+      },
+    })
+    .populate({
+      path: "orderList",
+      populate: {
+        path: "deliveryList",
+        populate: {
+          path: "productList",
+          populate: {
+            path: "product",
+          },
+        },
+      },
+    })
+    .populate({
+      path: "orderList",
+      populate: {
+        path: "deliveryList",
+        populate: {
+          path: "goodsReciept",
+        },
+      },
+    })
+    .populate({
+      path: "orderList",
+      populate: {
+        path: "invoice"
+      },
+    })
+    .populate({
+      path: "orderList",
+      populate: {
+        path: "supplier"
+      },
+    })
+    .populate({
+      path: "orderList",
+      populate: {
+        path: "site"
+      },
+    })
+    .populate({
+      path: "productList",
+    });
+    res.json(user);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
 //get Supplier details
 const getSupplierDetails = async (req, res) => {
   try {
@@ -288,5 +353,6 @@ module.exports = {
   registerSupplier,
   getPlacedOrdersForEachSupplier,
   getAcceptedOrCompletedOrdersForEachSupplier,
-  getSupplierProductsList
+  getSupplierProductsList,
+  getSupplierDetailsById
 };

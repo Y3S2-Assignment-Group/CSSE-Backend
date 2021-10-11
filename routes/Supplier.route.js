@@ -9,7 +9,8 @@ const {
   registerSupplier,
   getPlacedOrdersForEachSupplier,
   getAcceptedOrCompletedOrdersForEachSupplier,
-  getSupplierProductsList
+  getSupplierProductsList,
+  getSupplierDetailsById
 } = require("../controllers/Supplier.controller");
 
 router.get("/:id/acceptedorcompletedorders", getAcceptedOrCompletedOrdersForEachSupplier);
@@ -18,6 +19,7 @@ router.post("/register", registerSupplier);
 router.post("/login", loginSupplier);
 router.get("/:id/products", getSupplierProductsList);
 router.get("/", auth, getSupplierDetails);
+router.get("/:id", getSupplierDetailsById);
 router.get("/all", getSupplierList);
 
 
