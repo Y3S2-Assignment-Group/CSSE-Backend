@@ -53,6 +53,9 @@ const getDeliveryListByOrderId = async (req, res) => {
         path: "deliveryList",
         populate: {
           path: "productList",
+          populate: {
+            path: "product",
+          },
         },
       })
     res.json(orderList.deliveryList);
