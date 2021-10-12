@@ -45,6 +45,23 @@ const getOrderListBySiteId = async (req, res) => {
   }
 };
 
+//get Delivery List By Site Id
+const getDeliveryListByOrderId = async (req, res) => {
+  try {
+    const orderList = await Order.findById(req.params.orderid)
+      .populate({
+        path: "deliveryList",
+        populate: {
+          path: "productList",
+        },
+      })
+    res.json(orderList.deliveryList);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+};
+
 //get Order details
 const getOrderDetails = async (req, res) => {
   try {
@@ -349,5 +366,6 @@ module.exports = {
   updateProductPriceInOrderBySupplier,
   closeOrderAfterDeliveryCompletedBySiteManager,
   getOrderListBySiteId,
-  getOrderProductListByOrderId
+  getOrderProductListByOrderId,
+  getDeliveryListByOrderId
 };
