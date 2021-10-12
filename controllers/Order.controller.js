@@ -26,7 +26,6 @@ const getOrderProductListByOrderId = async (req, res) => {
 const getOrderListBySiteId = async (req, res) => {
   try {
     const orderList = await Order.find({ site: req.params.siteid , isDraft:false})
-      .select("productList site supplier")
       .populate({
         path: "productList",
         populate: {
